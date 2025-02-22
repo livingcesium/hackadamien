@@ -1,48 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import axios from 'axios'
-
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("");
 
   const get = () => {
-    axios.get('http://localhost:5000/getnumber')
-      .then(res => {
-        console.log(res)
-        let data: Record<string, string> = res.data
-        console.log(data)
-        setMessage(res.data.number)
-      })
-  }
+    axios.get("http://localhost:5000/getnumber").then((res) => {
+      console.log(res);
+      const data: Record<string, string> = res.data;
+      console.log(data);
+      setMessage(res.data.number);
+    });
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => get()}>
-          got data {message}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1 id="title">What do you want to learn today</h1>
+      <div id="topics"></div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
