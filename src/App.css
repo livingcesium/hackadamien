@@ -6,33 +6,33 @@
   font-family: "Inria Sans", sans-serif;
 }
 
+#home-page {
+  display: flex;
+}
+
 #title {
   font-family: "JejuHallasan";
 }
 
 #topics {
   display: flex;
+  justify-content: space-evenly;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.topic-card {
+  display: flex;
+  flex-direction: row;
+  margin: 4px;
+  background-color: aliceblue;
+  border: 3px solid black;
+  height: 50px;
+  border-radius: 10px;
+  padding: 5px;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.topic-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
 }
