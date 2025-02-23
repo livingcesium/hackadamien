@@ -24,11 +24,16 @@ function ChatHistory({
 }) {
   return (
     <div>
-      {history.map((msg, idx) => (
-        <div key={idx} className={className}>
-          {msg}
-        </div>
-      ))}
+      {history.map((msg, idx) => {
+        return (
+          <>
+            <p key={idx} className={className}>
+              {msg}
+            </p>
+            <br />
+          </>
+        );
+      })}
     </div>
   );
 }
@@ -37,9 +42,7 @@ export default function ChatPage({ topic }: Props) {
   const [username, setUsername] = useState("awudijawiudh");
   const [input, setInput] = useState("");
   const [userHistory, setUserHistory] = useState<string[]>([]);
-  const [assisstantHistory, setAssistantHistory] = useState<string[]>([
-    "BLAAAH",
-  ]);
+  const [assisstantHistory, setAssistantHistory] = useState<string[]>([]);
   const [beingQuestioned, setBeingQuestioned] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;
@@ -53,7 +56,7 @@ export default function ChatPage({ topic }: Props) {
 
     // Load up previous history, on mount
     axios
-      .get("http://localhost:5000/history", {
+      .get("http://127.0.0.1:5000/history", {
         params: { username: username },
       })
       .then((res) => {
@@ -82,7 +85,7 @@ export default function ChatPage({ topic }: Props) {
     if (!input) return;
 
     axios
-      .post("http://localhost:5000/chat", {
+      .post("http://127.0.0.1:5000/chat", {
         user: username,
         prompt: input,
       })
