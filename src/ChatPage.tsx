@@ -56,8 +56,12 @@ export default function ChatPage({ topic }: Props) {
 
     // Load up previous history, on mount
     axios
-      .get("http://127.0.0.1:5000/history", {
+      .get("http://localhost:5000/history", {
         params: { username: username },
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers you need here
+        },
       })
       .then((res) => {
         const { user, ai }: Data = res.data;
@@ -66,6 +70,7 @@ export default function ChatPage({ topic }: Props) {
       })
       .catch((err) => {
         console.error(err);
+
       });
   }, [username]);
 
@@ -81,11 +86,12 @@ export default function ChatPage({ topic }: Props) {
     setInput(e.target.value);
   }
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     if (!input) return;
-
+    
     axios
-      .post("http://127.0.0.1:5000/chat", {
+      .post("http://localhost:5000/chat", {
         user: username,
         prompt: input,
       })
@@ -98,6 +104,7 @@ export default function ChatPage({ topic }: Props) {
         setAssistantHistory([...assisstantHistory, assistant]);
       })
       .catch((err) => {
+        console.log(err.config);
         console.error(err);
       });
   }

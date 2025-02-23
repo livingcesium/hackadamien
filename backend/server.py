@@ -1,8 +1,7 @@
 from flask import Flask, request
-from flask_cors import CORS
 import ai
 app = Flask(__name__)
-#CORS(app)
+
 
 @app.route('/')
 def home():
@@ -16,6 +15,7 @@ def number():
 def history():
     username = request.args.get('username')
     history = ai.get_user_chat(username)
+    #print(username, history)
     res = {
         "user": [pair["content"] for pair in history if pair["role"] == "user"],
         "ai": [pair["content"] for pair in history if pair["role"] == "assistant"],
