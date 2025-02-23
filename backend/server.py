@@ -1,6 +1,8 @@
 from flask import Flask, request
+from flask_cors import CORS
 import ai
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def home():
@@ -18,7 +20,7 @@ def history():
         "user": [pair["content"] for pair in history if pair["role"] == "user"],
         "ai": [pair["content"] for pair in history if pair["role"] == "assistant"],
     }
-    print(res)
+    #print(res)
     return res
 
 @app.route('/chat', methods=['POST'])
