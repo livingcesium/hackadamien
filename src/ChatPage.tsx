@@ -126,11 +126,13 @@ export default function ChatPage({ topic }: Props) {
         )}
 
         <ChatHistory history={assisstantHistory} className="ai-chat" />
-        <img
-          src={loadingIcon}
-          style={{ maxWidth: "100px", maxHeight: "100px" }}
-          className={isSpinning ? "spinning" : ""}
-        />
+        {isSpinning && (
+          <img
+            src={loadingIcon}
+            style={{ maxWidth: "100px", maxHeight: "100px" }}
+            className="spinning"
+          />
+        )}
         <button
           id="question"
           disabled={isDisabled}
