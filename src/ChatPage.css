@@ -1,11 +1,15 @@
 .chat-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   height: 100vh;
 }
 
 #user-input {
-  margin-bottom: 100px;
-  /* background: none; */
+  position: absolute;
+  bottom: 50px;
+  background: none;
 }
 
 #ai-text {
