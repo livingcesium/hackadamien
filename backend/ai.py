@@ -136,7 +136,7 @@ def capture_structured_input(user: str, input: str, item: Validator):
     # save_user(user)
 
 
-capture_structured_input("test3", "[bread, turkey, avocado, turkey, bread]", Sandwich())
-#question_about("test3", Sandwich())
+#capture_structured_input("test3", "My sandwich will be bread, turkey, avocado, turkey, bread", Sandwich())
+question_about("test3", Sandwich())
 
 
