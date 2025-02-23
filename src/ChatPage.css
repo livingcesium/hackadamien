@@ -1,0 +1,13 @@
+.chat-page-container {
+  position: fixed;
+  height: 100vh;
+}
+
+#user-input {
+  position: absolute;
+  bottom: 100px;
+  /* background: none; */
+}
+
+#ai-text {
+}

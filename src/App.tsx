@@ -2,6 +2,8 @@ import "./App.css";
 import TopicCard from "./components/TopicCard";
 import sandwich from "./assets/sandwich.png";
 import derivative from "./assets/dydx.png";
+import { Outlet } from "react-router-dom";
+import { Topic } from "./main";
 
 function App() {
   return (
@@ -10,11 +12,18 @@ function App() {
       <div id="topics">
         <TopicCard
           src={sandwich}
-          name="Differentiate Polynomials"
+          text="Differentiate Polynomials"
           color="purple"
+          topic={Topic.sandwich}
         />
-        <TopicCard src={derivative} name="Make a sandwich" color="peachpuff" />
+        <TopicCard
+          src={derivative}
+          text="Make a sandwich"
+          color="peachpuff"
+          topic={Topic.calculus}
+        />
       </div>
+      <Outlet />
     </>
   );
 }
