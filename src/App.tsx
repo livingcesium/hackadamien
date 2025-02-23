@@ -8,7 +8,7 @@ import { Topic } from "./main";
 function App() {
   return (
     <>
-      <h1 id="title">What do you want to learn today</h1>
+      <h1 id="title">What do you want to learn today?</h1>
       <div id="topics">
         <TopicCard
           src={sandwich}
