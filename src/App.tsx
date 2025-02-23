@@ -12,13 +12,13 @@ function App() {
       <div id="topics">
         <TopicCard
           src={sandwich}
-          text="Differentiate Polynomials"
+          text="Make a sandwich"
           color="purple"
           topic={Topic.sandwich}
         />
         <TopicCard
           src={derivative}
-          text="Make a sandwich"
+          text="Differentiate Polynomials"
           color="peachpuff"
           topic={Topic.calculus}
         />
