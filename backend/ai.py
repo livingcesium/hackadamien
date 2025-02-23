@@ -4,7 +4,7 @@ import json
 from validation import Validator, Sandwich
 
 # Initialize the Groq client
-client = Groq(api_key='')
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 model = "deepseek-r1-distill-llama-70b"
 data = {}
 
