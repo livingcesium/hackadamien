@@ -1,65 +1,85 @@
 .chat-page-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
   height: 100vh;
-}
-
-#user-input {
-  --input-color: #3e5c76;
-  --input-width: 600px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  position: absolute;
-  bottom: 50px;
-  background-color: var(--input-color);
-  box-shadow: 10px 5px 5px black;
-  padding: 4px;
-  height: 30px;
-  width: var(--input-width);
-  border-radius: 15px;
-}
-
-#user-input textarea {
-  resize: none;
-  border: none;
-  outline: none;
-  background-color: var(--input-color);
-  width: 100%;
-  left: -10px;
-  color: white;
-}
-
-#user-input button {
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #748cab;
-  max-height: 30px;
-  max-width: 40px;
-}
-
-#ai-text {
-  text-align: left;
-  background-color: purple;
-}
-
-button#question {
-  position: absolute;
-  bottom: 100px;
-  background-color: rgb(0, 142, 102);
-  border: 1px solid #21705a;
-  color: rgb(167, 221, 255);
+  position: relative;
+  background-color: #f0ebd8;
 }
 
 #chat-history {
-  overflow-y: scroll;
-  overflow-wrap: break-word;
-  overflow-y: scroll;
-  width: 100%;
-  height: auto;
-  max-height: 50%;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  margin-bottom: 100px;
+}
+
+.message {
+  max-width: 70%;
+  margin: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  word-wrap: break-word;
+}
+
+.ai-chat {
+  background-color: white;
+  color: black;
+  align-self: flex-start;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-chat {
+  background-color: #3e5c76;
+  color: white;
+  align-self: flex-end;
+}
+
+#user-input {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#user-input textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+#user-input button {
+  padding: 8px 16px;
+  border-radius: 10px;
+  background-color: #3e5c76;
+  color: white;
+  cursor: pointer;
+}
+
+#user-input button:disabled {
+  background-color: #ccc;
+}
+
+button#question {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: #008e66;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }

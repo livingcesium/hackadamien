@@ -15,49 +15,43 @@ interface Props {
   topic: Topic;
 }
 
+// Update ChatHistory component to show both user and AI messages
 function ChatHistory({
-  history,
-  className,
+  userHistory,
+  aiHistory,
 }: {
-  history: string[];
-  className: string;
+  userHistory: string[];
+  aiHistory: string[];
 }) {
   return (
     <div id="chat-history">
-      {history.map((msg, idx) => {
-        return (
-          <>
-            <div key={idx} className={className}>
-              {msg}
+      {[...userHistory].map((msg, idx) => (
+        <div key={`chat-${idx}`}>
+          {/* Show user message first */}
+          <div className="message user-chat">
+            {msg}
+          </div>
+          {/* Then show AI response */}
+          {aiHistory[idx] && (
+            <div className="message ai-chat">
+              {aiHistory[idx]}
             </div>
-            <hr />
-          </>
-        );
-      })}
+          )}
+        </div>
+      ))}
     </div>
   );
 }
 
 export default function ChatPage({ topic }: Props) {
-  const [username, setUsername] = useState("awudijawiudh");
+  const [username, setUsername] = useState("");  // Remove test username
   const [input, setInput] = useState("");
   const [userHistory, setUserHistory] = useState<string[]>([]);
-  const [assisstantHistory, setAssistantHistory] = useState<string[]>([
-    "adiuwahiudhawd",
-    "awdijawodjawod",
-    "awioawdiuadh",
-    "awdijwaoidjwaidawodij",
-    "awidjawoidjawidjwad",
-    "awidjawoidjawoidjawoidj",
-    "awdawidjawoidj",
-    "awdijawiodjwaoidjwaoidjwaojd",
-    "awidjwaodjwaodi",
-    "awdiljwaidojwaoidj",
-    "awdioawjdoiwad",
-  ]);
+  const [assistantHistory, setAssistantHistory] = useState<string[]>([]); // Remove test data
   const [beingQuestioned, setBeingQuestioned] = useState(false);
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const isDisabled = !username || beingQuestioned;
+  const isDisabled = !username || beingQuestioned || loading;
 
   useEffect(() => {
     if (!username) return;
@@ -92,32 +86,29 @@ export default function ChatPage({ topic }: Props) {
     }
   }
 
-  function updatePrompt(e: React.ChangeEvent<HTMLTextAreaElement>): void {
+  
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setInput(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (!input) return;
-
-    axios
-      .post("http://localhost:5000/chat", {
-        user: username,
-        prompt: input,
-      })
-      .then((res) => {
-        const assistant: string = res.data;
-        console.log("Assistant:", assistant);
-
-        // Append backend response to history
-        setUserHistory([...userHistory, input]);
-        setAssistantHistory([...assisstantHistory, assistant]);
-      })
-      .catch((err) => {
-        console.log(err.config);
-        console.error(err);
-      });
+    if (!input.trim()) return;
+  
+    axios.post("http://localhost:5000/chat", {
+      user: username,
+      prompt: input,
+      topic: topic  // Add topic to the request
+    })
+    .then((res) => {
+      const assistant: string = res.data;
+      setUserHistory([...userHistory, input]);
+      setAssistantHistory([...assistantHistory, assistant]);
+      setInput("");
+    })
+    .catch((err) => {
+      console.error("Chat error:", err);
+      alert("Failed to send message. Please try again.");
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   }
 
   return (
@@ -129,7 +120,10 @@ export default function ChatPage({ topic }: Props) {
           <NamePrompt setUsername={setUsername} />
         )}
 
-        <ChatHistory history={assisstantHistory} className="ai-chat" />
+        <ChatHistory 
+          userHistory={userHistory} 
+          aiHistory={assistantHistory} 
+        />
 
         <button
           id="question"
@@ -152,11 +146,15 @@ export default function ChatPage({ topic }: Props) {
             name="reply"
             placeholder="Reply to RoboDamien"
             onKeyDown={onEnterDown}
-            onChange={updatePrompt}
+            onChange={(e) => setInput(e.target.value)}
             disabled={isDisabled}
           />
           <button type="submit" disabled={isDisabled}>
+          {loading ? (
+              "..." // You could add a loading spinner here
+            ) : (
             <FontAwesomeIcon icon={faArrowAltCircleRight} />
+          )}
           </button>
         </form>
       </div>

@@ -1,33 +1,33 @@
 from abc import ABC, abstractmethod
 from sympy import sympify
 class Validator(ABC):
-
-    fail_message = ""
-    challenges = []
-    format_msg = ""
-        
+    def __init__(self):
+        self.fail_message = ""
+        self.challenges = []
+        self.format_msg = ""
+    
     @abstractmethod
-    def validate(self, data):
+    def validate(self, data: dict) -> bool:
         pass
 
     @abstractmethod
-    def requirements(self, data):
+    def requirements(self) -> str:
         pass
 
-    @abstractmethod
-    def challenge(self, data):
-        pass
+    def challenge(self) -> str:
+        return f"examples: {','.join(self.challenges)}"
     
 class Sandwich(Validator):
-    
-    challenges = [
-        "Fix the following sandwich: [bread, ham, cheese]",
-        "You have unlimited bread and two slices of provolone cheese. Make a sandwich.",
-    ]
+    def __init__(self):
+        super().__init__()
+        self.challenges = [
+            "Fix the following sandwich: [bread, ham, cheese]",
+            "You have unlimited bread and two slices of provolone cheese. Make a sandwich.",
+        ]
 
     def validate(self, data: dict):
         ingredients = data.get("ingredients", [])
-        if self.data["ingredients"].empty():
+        if not ingredients:  # Fixed empty check
             self.fail_message = "No ingredients provided"
             return False
         if ingredients[0] != "bread" or ingredients[-1] != "bread":
@@ -48,19 +48,12 @@ class Sandwich(Validator):
     
 class Calculus(Validator):
     
-    challenges = [
-        "Find the derivative of the following function: f(x) = x^2",
-        "Solve the following integral: ∫ x^2 dx",
-    ]
-
-    format_msg = """
-        
-        user_input: str
-        instructions: "Use sympy to represent the expressions (from users input) in the following fields"
-        symbols: list[str] 
-        question_expression: str
-        given_answer: str"""
-    
+    def __init__(self):
+      super().__init__()
+      self.challenges = [
+          "Find the derivative of the following function: f(x) = x^2",
+          "Solve the following integral: ∫ x^2 dx",
+      ]
 
     def validate(self, data: dict):
         symbols = data.get("symbols", [])

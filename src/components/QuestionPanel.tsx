@@ -9,26 +9,37 @@ interface Props {
 }
 
 export default function QuestionPanel({ topic, user, onAnswer }: Props) {
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState(""); // Fix: use state instead of let
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    // Load question on mount
-    axios
-      .get("httpcle://localhost:5000/question", {
-        params: { topic: topic, user: user },
-      })
-      .then((res) => setQuestion(res.data))
-      .catch((err) => console.log(err));
+    // Fix: Corrected URL and proper POST method
+    axios.post("http://localhost:5000/question", {
+      topic: topic,
+      user: user
+    })
+    .then((res) => setQuestion(res.data.question))
+    .catch((err) => console.error("Question error:", err));
   }, [topic, user]);
 
-  const [question, setQuestion] = useState("");
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault(); // Fix: prevent form submission
+    if (!answer.trim() || loading) return;
 
-  let answer: string = "";
-  function handleSubmit() {
-    if (!answer) return;
-    // POST answer to backend
-    axios
-      .post("http://localhost:5000/answer", { answer: answer })
-      .then(onAnswer)
-      .catch((err) => console.log(err));
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:5000/answer", {
+        user: user,
+        topic: topic,
+        answer: answer
+      });
+      onAnswer();
+    } catch (err) {
+      console.error("Answer error:", err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -39,8 +50,12 @@ export default function QuestionPanel({ topic, user, onAnswer }: Props) {
           name="answer"
           type="text"
           placeholder="The answer is..."
-          onChange={(e) => (answer = e.target.value)}
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
         />
+        <button type="submit" disabled={loading}>
+          {loading ? "..." : "Submit"}
+        </button>
       </form>
     </div>
   );
