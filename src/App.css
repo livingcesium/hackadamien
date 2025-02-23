@@ -29,16 +29,14 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   height: 50px;
   border-radius: 10px;
-  padding: 7px;
+  padding: 4px;
   align-items: center;
-  box-shadow: 10px 5px 5px;
 }
 
 .topic-card img {
   width: 50px;
   height: 50px;
   border-radius: 10px;
-  margin-right: 3px;
   margin-right: 5px;
 }
 
