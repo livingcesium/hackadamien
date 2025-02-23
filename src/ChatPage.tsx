@@ -24,24 +24,24 @@ export default function ChatPage({ topic }: Props) {
 
   return (
     <>
-      {/* <div className="chat-page-container"> */}
-      <div id="ai-text"></div>
-      {username || <NamePrompt setUsername={setUsername} />}
-      <form
-        ref={formRef}
-        action={(formData) => setPrompt(formData.get("reply") as string)}
-        id="user-input"
-      >
-        <textarea
-          name="reply"
-          placeholder="Reply to RoboDamien"
-          onKeyDown={onEnterDown}
-          rows={10}
-          cols={100}
-        />
-        <button type="submit">=</button>
-      </form>
-      {/* </div> */}
+      <div className="chat-page-container">
+        <div id="ai-text"></div>
+        {username || <NamePrompt setUsername={setUsername} />}
+        <form
+          ref={formRef}
+          action={(formData) => setPrompt(formData.get("reply") as string)}
+          id="user-input"
+        >
+          <textarea
+            name="reply"
+            placeholder="Reply to RoboDamien"
+            onKeyDown={onEnterDown}
+            rows={10}
+            cols={100}
+          />
+          <button type="submit">=</button>
+        </form>
+      </div>
       {topic}
       <Outlet />
     </>
