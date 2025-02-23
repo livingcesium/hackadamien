@@ -30,11 +30,18 @@ body {
   background-color: white;
   color: black;
   border: 3px solid #3e5c76;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 10px 10px 23px 1px black;
   height: 50px;
   border-radius: 10px;
   padding: 4px;
   align-items: center;
+  transition: all 0.3s ease 0s;
+}
+
+.topic-card:hover {
+  bottom: -10px;
+  right: -10px;
+  box-shadow: 10px 10px 23px calc(1px + 4px) black;
 }
 
 .topic-card img {

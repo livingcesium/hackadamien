@@ -39,22 +39,10 @@ function ChatHistory({
 }
 
 export default function ChatPage({ topic }: Props) {
-  const [username, setUsername] = useState("awudijawiudh");
+  const [username, setUsername] = useState("");
   const [input, setInput] = useState("");
   const [userHistory, setUserHistory] = useState<string[]>([]);
-  const [assisstantHistory, setAssistantHistory] = useState<string[]>([
-    "adiuwahiudhawd",
-    "awdijawodjawod",
-    "awioawdiuadh",
-    "awdijwaoidjwaidawodij",
-    "awidjawoidjawidjwad",
-    "awidjawoidjawoidjawoidj",
-    "awdawidjawoidj",
-    "awdijawiodjwaoidjwaoidjwaojd",
-    "awidjwaodjwaodi",
-    "awdiljwaidojwaoidj",
-    "awdioawjdoiwad",
-  ]);
+  const [assisstantHistory, setAssistantHistory] = useState<string[]>([]);
   const [beingQuestioned, setBeingQuestioned] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;
@@ -160,7 +148,6 @@ export default function ChatPage({ topic }: Props) {
           </button>
         </form>
       </div>
-      {topic}
       <Outlet />
     </>
   );
