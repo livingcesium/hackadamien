@@ -8,6 +8,10 @@ client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 model = "deepseek-r1-distill-llama-70b"
 data = {}
 
+str_to_topic = {
+    "sandwich": Sandwich()
+}
+
 
 def load_user(user: str):
     global data
@@ -33,15 +37,18 @@ def use_model(name: str):
     global model
     model = name
 
-def chat_as(user: str, content: str):
+def chat_as(user: str, content: str, ):
     history = get_user_chat(user) + [{"role": "user", "content": content}]
+    print(history)
     chat_completion = client.chat.completions.create(
         messages=history,
         model=model,
+        reasoning_format= "hidden",
     )
-
-    data[user] = history + [chat_completion.choices[0].message.to_dict()]
+    res = chat_completion.choices[0].message.to_dict()
+    data[user] = history + [res]
     save_user(user)
+    return res["content"]
 
 def get_structured_response(user: str, sys_prompt: str, msgs: list = [], save: bool = False):
     load_user(user)
@@ -61,9 +68,20 @@ def get_structured_response(user: str, sys_prompt: str, msgs: list = [], save: b
 
 def explain(user: str, topic: Validator):
     system_prompt = f"""Explain the following topic to the user:
-    details: {topic.requirements()}"""
+    details: {topic.requirements()}
+    Ask the user if they have any questions about the topic."""
     history = get_user_chat(user) + [{"role": "system", "content": system_prompt}]
-    pass
+    completion = client.chat.completions.create(
+        model=model,
+        messages=history,
+        reasoning_format= "hidden",
+        temperature=0,
+    )
+    data[user] = history + [completion.choices[0].message.to_dict()]
+    save_user(user)
+    res = completion.choices[0].message.to_dict()
+    print(res)
+    return res["content"]
 
 def question_about(user: str, topic: Validator):
     system_prompt = f"""Using the conversation so far as context, gauge the user's
@@ -86,9 +104,11 @@ def question_about(user: str, topic: Validator):
     """
     
     resp = get_structured_response(user, system_prompt, [{"role": "system", "content": system_prompt}])
-    data[user] = get_user_chat(user) + [{"role": "assistant", "content": resp.get("question", "")}]
+    question = resp.get("question", "")
+    data[user] = get_user_chat(user) + [{"role": "assistant", "content": question}]
     save_user(user)
     print(resp)
+    return question
 
 def evaluate(user: str, question: str, topic: Validator):
     system_prompt = f"""Evaluate the user's response to the question you asked them.:
@@ -137,6 +157,6 @@ def capture_structured_input(user: str, input: str, item: Validator):
 
 
 #capture_structured_input("test3", "My sandwich will be bread, turkey, avocado, turkey, bread", Sandwich())
-question_about("test3", Sandwich())
-
+#question_about("test3", Sandwich())
+#explain("test3", Sandwich())
 
