@@ -6,6 +6,7 @@ interface Props {
   topic: Topic;
   text: string;
   color: string;
+  // model: string;
 }
 
 export default function TopicCard({ src, topic, text, color }: Props) {

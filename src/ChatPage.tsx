@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet /* useLocation */ } from "react-router-dom";
 import { Topic } from "./main";
 import { useEffect, useRef, useState } from "react";
 import NamePrompt from "./components/NamePrompt";
@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import QuestionPanel from "./components/QuestionPanel";
+import loadingIcon from "./assets/loading-icon.png";
 
 interface Props {
   topic: Topic;
@@ -47,12 +48,20 @@ export default function ChatPage({ topic }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;
 
+  const waitingTime = 1000;
+  const animStyle = { animation: "none" };
+
   useEffect(() => {
     if (!username) return;
     interface Data {
       user: string[];
       ai: string[];
     }
+
+    const timerID = setTimeout(
+      () => (animStyle.animation = "spin 2s linear infinite"),
+      waitingTime
+    );
 
     // Load up previous history, on mount
     axios
@@ -67,11 +76,13 @@ export default function ChatPage({ topic }: Props) {
         const { user, ai }: Data = res.data;
         setUserHistory(user);
         setAssistantHistory(ai);
+        clearTimeout(timerID);
+        animStyle.animation = "none";
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [username]);
+  }, [username, animStyle]);
 
   function onEnterDown(event: React.KeyboardEvent) {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -118,7 +129,7 @@ export default function ChatPage({ topic }: Props) {
         )}
 
         <ChatHistory history={assisstantHistory} className="ai-chat" />
-
+        <img src={loadingIcon} style={animStyle} className="spinning" />
         <button
           id="question"
           disabled={isDisabled}
