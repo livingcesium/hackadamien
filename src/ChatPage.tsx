@@ -24,11 +24,16 @@ function ChatHistory({
 }) {
   return (
     <div>
-      {history.map((msg, idx) => (
-        <div key={idx} className={className}>
-          {msg}
-        </div>
-      ))}
+      {history.map((msg, idx) => {
+        return (
+          <>
+            <p key={idx} className={className}>
+              {msg}
+            </p>
+            <br />
+          </>
+        );
+      })}
     </div>
   );
 }
@@ -37,9 +42,7 @@ export default function ChatPage({ topic }: Props) {
   const [username, setUsername] = useState("awudijawiudh");
   const [input, setInput] = useState("");
   const [userHistory, setUserHistory] = useState<string[]>([]);
-  const [assisstantHistory, setAssistantHistory] = useState<string[]>([
-    "BLAAAH",
-  ]);
+  const [assisstantHistory, setAssistantHistory] = useState<string[]>([]);
   const [beingQuestioned, setBeingQuestioned] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;

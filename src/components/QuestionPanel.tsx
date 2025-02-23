@@ -12,10 +12,11 @@ export default function QuestionPanel({ topic, user, onAnswer }: Props) {
   useEffect(() => {
     // Load question on mount
     axios
-      .get("https://localhost:5000/question", {
+      .get("httpcle://localhost:5000/question", {
         params: { topic: topic, user: user },
       })
-      .then((res) => setQuestion(res.data));
+      .then((res) => setQuestion(res.data))
+      .catch((err) => console.log(err));
   }, [topic, user]);
 
   const [question, setQuestion] = useState("");
@@ -25,8 +26,9 @@ export default function QuestionPanel({ topic, user, onAnswer }: Props) {
     if (!answer) return;
     // POST answer to backend
     axios
-      .post("https://localhost:5000/answer", { answer: answer })
-      .then(onAnswer);
+      .post("http://localhost:5000/answer", { answer: answer })
+      .then(onAnswer)
+      .catch((err) => console.log(err));
   }
 
   return (

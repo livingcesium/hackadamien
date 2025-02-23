@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 import ai
 app = Flask(__name__)
-CORS(app)
+#CORS(app)
 
 @app.route('/')
 def home():
@@ -26,7 +26,7 @@ def history():
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.get_json()
-    print(data)
+    print(f"data: {data}")
     user = data.get('user')
 
     prompt = data.get('prompt')
@@ -38,6 +38,7 @@ def chat():
 @app.route('/question', methods=['GET'])
 def question():
     data = request.get_json()
+    print(f"Data: {data}")
     user = data.get('user')
     topic = ai.str_to_topic.get(data.get('topic'))
     res = ai.question_about(user, topic)
