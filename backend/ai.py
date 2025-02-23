@@ -125,7 +125,9 @@ def evaluate(user: str, question: str, topic: Validator):
     )
     data[user] = get_user_chat(user) + [completion.choices[0].message.to_dict()]
     save_user(user)
-    print(completion.choices[0].message.to_dict())
+    res = completion.choices[0].message.to_dict()
+    print(res)
+    return res["content"]
 
 def capture_structured_input(user: str, input: str, item: Validator):
     system_prompt = f"""Extract information from the text and return as JSON matching this schema:
@@ -146,7 +148,7 @@ def capture_structured_input(user: str, input: str, item: Validator):
     # )
     # data[user] = data[user] + [completion.choices[0].message.to_dict()]
     save_user(user)
-    evaluate(user, input, item)
+    return evaluate(user, input, item)
     # try:
     #     item = item.validate(completion.choices[0].message.to_dict())
     # except ValueError as e:
