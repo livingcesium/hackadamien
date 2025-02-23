@@ -1,7 +1,7 @@
 import os
 from groq import Groq
 import json
-from validation import Validator, Sandwich
+from validation import Validator, Sandwich, Calculus
 
 # Initialize the Groq client
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
@@ -96,7 +96,7 @@ def question_about(user: str, topic: Validator):
     Do your best to not repeat the same question.
     Make sure the user is challenged according to their performance, and ensure you include your question always.
     
-    Create example questions before deciding on the final one. 
+    Create example questions before deciding on the final one. ENSURE YOU ARE ASKING A QUESTION.
 
     Your response must be in valid JSON format and include the following fields:
     question: str
@@ -110,13 +110,14 @@ def question_about(user: str, topic: Validator):
     print(resp)
     return question
 
-def evaluate(user: str, question: str, topic: Validator):
+def evaluate(user: str, question: str, topic: Validator, answer_data: dict = {}):
     system_prompt = f"""Evaluate the user's response to the question you asked them.:
     details: {topic.requirements()}
     question: {question}
 
     Address them directly and provide feedback on their response.
     """
+
     completion = client.chat.completions.create(
         model=model,
         messages=get_user_chat(user) + [{"role": "system", "content": system_prompt}],
@@ -127,11 +128,17 @@ def evaluate(user: str, question: str, topic: Validator):
     save_user(user)
     res = completion.choices[0].message.to_dict()
     print(res)
+    if answer_data:
+        print("#####", topic.validate(answer_data))
     return res["content"]
+
 
 def capture_structured_input(user: str, input: str, item: Validator):
     system_prompt = f"""Extract information from the text and return as JSON matching this schema:
     schema: {item.requirements()}
+
+    Respond with VALID JSON that follows the above. Additional information for creating the correct JSON structure:
+    {item.format_msg or "No additional information provided, ensure valid JSON is returned."}
     """
     response = get_structured_response(user, system_prompt, [{"role": "user", "content": input}])
     if "details" in response: 
@@ -158,7 +165,7 @@ def capture_structured_input(user: str, input: str, item: Validator):
     # save_user(user)
 
 
-#capture_structured_input("test3", "My sandwich will be bread, turkey, avocado, turkey, bread", Sandwich())
-#question_about("test3", Sandwich())
+#capture_structured_input("test3", "3x^2", Calculus())
+#question_about("test3", Calculus())
 #explain("test3", Sandwich())
 
