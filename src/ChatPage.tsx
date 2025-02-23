@@ -48,8 +48,8 @@ export default function ChatPage({ topic }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;
 
-  const waitingTime = 1000;
-  const animStyle = { animation: "none" };
+  const waitingTime = 0;
+  const [isSpinning, setIsSpinning] = useState(false);
 
   useEffect(() => {
     if (!username) return;
@@ -58,10 +58,7 @@ export default function ChatPage({ topic }: Props) {
       ai: string[];
     }
 
-    const timerID = setTimeout(
-      () => (animStyle.animation = "spin 2s linear infinite"),
-      waitingTime
-    );
+    const timerID = setTimeout(() => setIsSpinning(true), waitingTime);
 
     // Load up previous history, on mount
     axios
@@ -77,12 +74,12 @@ export default function ChatPage({ topic }: Props) {
         setUserHistory(user);
         setAssistantHistory(ai);
         clearTimeout(timerID);
-        animStyle.animation = "none";
+        setIsSpinning(false);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [username, animStyle]);
+  }, [username, isSpinning]);
 
   function onEnterDown(event: React.KeyboardEvent) {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -129,7 +126,11 @@ export default function ChatPage({ topic }: Props) {
         )}
 
         <ChatHistory history={assisstantHistory} className="ai-chat" />
-        <img src={loadingIcon} style={animStyle} className="spinning" />
+        <img
+          src={loadingIcon}
+          style={{ maxWidth: "100px", maxHeight: "100px" }}
+          className={isSpinning ? "spinning" : ""}
+        />
         <button
           id="question"
           disabled={isDisabled}
