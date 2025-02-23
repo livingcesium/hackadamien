@@ -1,0 +1,10 @@
+#question-panel {
+  background-color: rgb(0, 170, 255);
+  border: 2px solid black;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Ensure above everything else */
+  margin: auto;
+}

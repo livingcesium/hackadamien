@@ -42,3 +42,9 @@ a {
   text-decoration: none; /* Removes underline */
   cursor: default; /* Prevents the pointer cursor */
 }
+
+button:disabled {
+  pointer-events: none; /* Prevents hover effects */
+  color: inherit; /* Resets text color */
+  cursor: not-allowed; /* Keeps the disabled cursor */
+}

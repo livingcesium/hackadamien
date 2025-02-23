@@ -7,10 +7,38 @@
 }
 
 #user-input {
+  --input-color: rgb(182, 114, 114);
+  --input-width: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   position: absolute;
   bottom: 50px;
-  background: none;
+  background-color: var(--input-color);
+  box-shadow: 10px 5px 5px black;
+  padding: 4px;
+  height: 30px;
+  width: var(--input-width);
+  border-radius: 15px;
+}
+
+#user-input textarea {
+  resize: none;
+  border: none;
+  outline: none;
+  background-color: var(--input-color);
+  width: 100%;
 }
 
 #ai-text {
+  text-align: left;
+  background-color: purple;
+}
+
+button#question {
+  position: absolute;
+  bottom: 100px;
+  text-align: right;
+  background-color: green;
+  color: rgb(148, 193, 92);
 }
