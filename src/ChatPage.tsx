@@ -112,7 +112,7 @@ export default function ChatPage({ topic }: Props) {
     <>
       <div className="chat-page-container">
         {username ? (
-          <h1>Topic is: {topic}</h1>
+          <h2>Topic is: {topic}</h2>
         ) : (
           <NamePrompt setUsername={setUsername} />
         )}

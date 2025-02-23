@@ -1,5 +1,4 @@
 #name-prompt {
-  background-color: chocolate;
   border: 2px solid black;
   width: 200px;
   height: 200px;
@@ -7,4 +6,11 @@
   flex-direction: column;
   z-index: 1000; /* Ensure above everything else */
   margin: auto;
+
+  background-color: #4b8cc5;
+  border: 2px solid black;
+  display: flex;
+  border-radius: 5px;
+  box-shadow: 10px 5px 5px rgba(179, 157, 117, 0.453);
+  color: black;
 }

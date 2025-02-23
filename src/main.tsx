@@ -17,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />} />
         <Route path="/sandwich" element={<ChatPage topic={Topic.sandwich} />} />
         <Route path="/calculus" element={<ChatPage topic={Topic.calculus} />} />
+        <Route path="/404" element={<a href="../backend/404.html"></a>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
