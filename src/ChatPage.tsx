@@ -135,7 +135,11 @@ export default function ChatPage({ topic }: Props) {
             onChange={updatePrompt}
             disabled={isDisabled}
           />
-          <button type="submit" disabled={isDisabled}>
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={isDisabled}
+          >
             <FontAwesomeIcon icon={faArrowAltCircleRight} />
           </button>
         </form>
