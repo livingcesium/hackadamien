@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: row;
   margin: 4px;
-  background-color: rgb(114, 152, 186);
+  background-color: rgb(140, 140, 140);
   border: 3px solid black;
   height: 50px;
   border-radius: 10px;
@@ -35,4 +35,10 @@
   width: 50px;
   height: 50px;
   border-radius: 10px;
+}
+
+a {
+  color: inherit; /* Makes the text use the parent's color */
+  text-decoration: none; /* Removes underline */
+  cursor: default; /* Prevents the pointer cursor */
 }
