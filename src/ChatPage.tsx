@@ -76,6 +76,7 @@ export default function ChatPage({ topic }: Props) {
             onKeyDown={onEnterDown}
             rows={10}
             cols={100}
+            disabled={!username}
           />
           <button type="submit">=</button>
         </form>
