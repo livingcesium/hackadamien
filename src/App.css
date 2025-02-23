@@ -6,6 +6,10 @@
   font-family: "Inria Sans", sans-serif;
 }
 
+body {
+  background-color: #f0ebd8;
+}
+
 #home-page {
   display: flex;
 }

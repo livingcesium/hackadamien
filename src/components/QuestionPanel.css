@@ -1,10 +1,19 @@
 #question-panel {
-  background-color: rgb(0, 170, 255);
+  background-color: #4b8cc5;
   border: 2px solid black;
   width: 200px;
   height: 200px;
   display: flex;
   flex-direction: column;
   z-index: 1000; /* Ensure above everything else */
-  margin: auto;
+  margin: 50% 50%;
+  position: absolute;
+  border-radius: 5px;
+  box-shadow: 10px 5px 5px rgba(179, 157, 117, 0.453);
+  justify-content: space-between;
+}
+
+#question-panel input {
+  border: none;
+  margin: 10px;
 }

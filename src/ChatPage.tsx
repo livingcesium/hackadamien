@@ -23,14 +23,14 @@ function ChatHistory({
   className: string;
 }) {
   return (
-    <div>
+    <div id="chat-history">
       {history.map((msg, idx) => {
         return (
           <>
-            <p key={idx} className={className}>
+            <div key={idx} className={className}>
               {msg}
-            </p>
-            <br />
+            </div>
+            <hr />
           </>
         );
       })}
@@ -42,7 +42,19 @@ export default function ChatPage({ topic }: Props) {
   const [username, setUsername] = useState("awudijawiudh");
   const [input, setInput] = useState("");
   const [userHistory, setUserHistory] = useState<string[]>([]);
-  const [assisstantHistory, setAssistantHistory] = useState<string[]>([]);
+  const [assisstantHistory, setAssistantHistory] = useState<string[]>([
+    "adiuwahiudhawd",
+    "awdijawodjawod",
+    "awioawdiuadh",
+    "awdijwaoidjwaidawodij",
+    "awidjawoidjawidjwad",
+    "awidjawoidjawoidjawoidj",
+    "awdawidjawoidj",
+    "awdijawiodjwaoidjwaoidjwaojd",
+    "awidjwaodjwaodi",
+    "awdiljwaidojwaoidj",
+    "awdioawjdoiwad",
+  ]);
   const [beingQuestioned, setBeingQuestioned] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;
@@ -59,7 +71,7 @@ export default function ChatPage({ topic }: Props) {
       .get("http://localhost:5000/history", {
         params: { username: username },
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           // Add any other headers you need here
         },
       })
@@ -70,7 +82,6 @@ export default function ChatPage({ topic }: Props) {
       })
       .catch((err) => {
         console.error(err);
-
       });
   }, [username]);
 
@@ -89,7 +100,7 @@ export default function ChatPage({ topic }: Props) {
   function handleSubmit(e) {
     e.preventDefault();
     if (!input) return;
-    
+
     axios
       .post("http://localhost:5000/chat", {
         user: username,
@@ -112,12 +123,14 @@ export default function ChatPage({ topic }: Props) {
   return (
     <>
       <div className="chat-page-container">
-        <ChatHistory history={assisstantHistory} className="ai-chat" />
         {username ? (
-          <h1>{username}</h1>
+          <h1>Topic is: {topic}</h1>
         ) : (
           <NamePrompt setUsername={setUsername} />
         )}
+
+        <ChatHistory history={assisstantHistory} className="ai-chat" />
+
         <button
           id="question"
           disabled={isDisabled}
@@ -142,11 +155,7 @@ export default function ChatPage({ topic }: Props) {
             onChange={updatePrompt}
             disabled={isDisabled}
           />
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={isDisabled}
-          >
+          <button type="submit" disabled={isDisabled}>
             <FontAwesomeIcon icon={faArrowAltCircleRight} />
           </button>
         </form>

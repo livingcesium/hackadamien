@@ -7,7 +7,7 @@
 }
 
 #user-input {
-  --input-color: rgb(182, 114, 114);
+  --input-color: #3e5c76;
   --input-width: 600px;
   display: flex;
   flex-direction: row;
@@ -28,6 +28,18 @@
   outline: none;
   background-color: var(--input-color);
   width: 100%;
+  left: -10px;
+  color: white;
+}
+
+#user-input button {
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #748cab;
+  max-height: 30px;
+  max-width: 40px;
 }
 
 #ai-text {
@@ -38,6 +50,16 @@
 button#question {
   position: absolute;
   bottom: 100px;
-  background-color: green;
-  color: rgb(148, 193, 92);
+  background-color: rgb(0, 142, 102);
+  border: 1px solid #21705a;
+  color: rgb(121, 162, 70);
+}
+
+#chat-history {
+  overflow-y: scroll;
+  overflow-wrap: break-word;
+  overflow-y: scroll;
+  width: 100%;
+  height: auto;
+  max-height: 50%;
 }
