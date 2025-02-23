@@ -69,15 +69,16 @@ def question_about(user: str, topic: Validator):
     system_prompt = f"""Using the conversation so far as context, gauge the user's
     understanding about the following topic:
     details: {topic.requirements()}
-    challenge: {topic.challenge()}
+    examples of questions to ask the user: {topic.challenge()}
 
     Don't tell the user any of these details.
-    Respond with an example scenario that and ask the user to reply
-    with a completion that matches the schema. Do not reply until you have a valid question to ask
+    Respond with a scenario similar to the examples, be creative.
+    Do not reply until you have a valid question to ask
     Do NOT provide general advice, stick to the schema and QUIZ THE USER.
+    Do your best to not repeat the same question.
     Make sure the user is challenged according to their performance, and ensure you include your question always.
     
-    Create example questions before deciding on the final one.
+    Create example questions before deciding on the final one. 
 
     Your response must be in valid JSON format and include the following fields:
     question: str
@@ -85,9 +86,26 @@ def question_about(user: str, topic: Validator):
     """
     
     resp = get_structured_response(user, system_prompt, [{"role": "system", "content": system_prompt}])
-    
-    #save_user(user)
+    data[user] = get_user_chat(user) + [{"role": "assistant", "content": resp.get("question", "")}]
+    save_user(user)
     print(resp)
+
+def evaluate(user: str, question: str, topic: Validator):
+    system_prompt = f"""Evaluate the user's response to the question you asked them.:
+    details: {topic.requirements()}
+    question: {question}
+
+    Address them directly and provide feedback on their response.
+    """
+    completion = client.chat.completions.create(
+        model=model,
+        messages=get_user_chat(user) + [{"role": "system", "content": system_prompt}],
+        reasoning_format= "hidden",
+        temperature=0,
+    )
+    data[user] = get_user_chat(user) + [completion.choices[0].message.to_dict()]
+    save_user(user)
+    print(completion.choices[0].message.to_dict())
 
 def capture_structured_input(user: str, input: str, item: Validator):
     system_prompt = f"""Extract information from the text and return as JSON matching this schema:
@@ -98,8 +116,17 @@ def capture_structured_input(user: str, input: str, item: Validator):
         del response["details"]
 
     print(response)
-    data[user] = get_user_chat(user) + [{"role": "user", "content": response.get("msg", "")}]
+    data[user] = get_user_chat(user) + [{"role": "user", "content": json.dumps(response)}]
 
+    # completion = client.chat.completions.create(
+    #     model=model,
+    #     messages=data[user],
+    #     reasoning_format= "hidden",
+    #     temperature=0,
+    # )
+    # data[user] = data[user] + [completion.choices[0].message.to_dict()]
+    save_user(user)
+    evaluate(user, input, item)
     # try:
     #     item = item.validate(completion.choices[0].message.to_dict())
     # except ValueError as e:
@@ -109,9 +136,7 @@ def capture_structured_input(user: str, input: str, item: Validator):
     # save_user(user)
 
 
-
-
-capture_structured_input("test3", "Yes, it is valid.", Sandwich())
+capture_structured_input("test3", "[bread, turkey, avocado, turkey, bread]", Sandwich())
 #question_about("test3", Sandwich())
 
 

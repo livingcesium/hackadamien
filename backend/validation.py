@@ -21,7 +21,7 @@ class Sandwich(Validator):
     
     challenges = [
         "Fix the following sandwich: [bread, ham, cheese]",
-        "Is the following sandwich valid? [bread, ham, cheese, bread]",
+        "You have unlimited bread and two slices of provolone cheese. Make a sandwich.",
     ]
 
     def validate(self, data: dict):
