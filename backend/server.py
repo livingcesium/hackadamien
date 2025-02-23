@@ -10,5 +10,7 @@ def home():
 def number():
     return {"number": "o"}
 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
