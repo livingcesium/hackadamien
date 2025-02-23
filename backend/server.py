@@ -1,6 +1,9 @@
 from flask import Flask, request
 from flask_cors import CORS
 import ai
+import sys
+from Plagiarizer import *
+
 app = Flask(__name__)
 CORS(app)
 
@@ -56,10 +59,13 @@ def answer():
 
 @app.route('/explain', methods=['GET'])
 def explain():
-    data = request.get_json()
-    user = data.get('user')
-    topic = ai.str_to_topic.get(data.get('topic'))
-    res = ai.explain(user, topic)
+    if len(sys.argv) > 1:
+        res = write_sentence_tokens(make_sentence_tokens())
+    else:
+        data = request.get_json()
+        user = data.get('user')
+        topic = ai.str_to_topic.get(data.get('topic'))
+        res = ai.explain(user, topic)
     return res # string that is the explanation
 
 
