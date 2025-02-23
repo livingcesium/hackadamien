@@ -4,6 +4,7 @@ import sandwich from "./assets/sandwich.png";
 import derivative from "./assets/dydx.png";
 import { Outlet } from "react-router-dom";
 import { Topic } from "./main";
+import roboDamien from "./assets/robo-damien.png";
 
 function App() {
   return (
