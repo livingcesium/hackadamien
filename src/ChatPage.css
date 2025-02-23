@@ -38,7 +38,6 @@
 button#question {
   position: absolute;
   bottom: 100px;
-  text-align: right;
   background-color: green;
   color: rgb(148, 193, 92);
 }
