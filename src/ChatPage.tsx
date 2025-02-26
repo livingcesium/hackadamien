@@ -48,7 +48,7 @@ export default function ChatPage({ topic }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const isDisabled = !username || beingQuestioned;
 
-  const waitingTime = 0;
+  const waitingTime = 5000;
   const [isSpinning, setIsSpinning] = useState(false);
 
   useEffect(() => {
@@ -57,6 +57,8 @@ export default function ChatPage({ topic }: Props) {
       user: string[];
       ai: string[];
     }
+
+    console.log("I'm being callled!");
 
     const timerID = setTimeout(() => setIsSpinning(true), waitingTime);
 
@@ -79,7 +81,7 @@ export default function ChatPage({ topic }: Props) {
       .catch((err) => {
         console.error(err);
       });
-  }, [username, isSpinning]);
+  }, [username]);
 
   function onEnterDown(event: React.KeyboardEvent) {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -93,7 +95,7 @@ export default function ChatPage({ topic }: Props) {
     setInput(e.target.value);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!input) return;
 
@@ -114,7 +116,7 @@ export default function ChatPage({ topic }: Props) {
         console.log(err.config);
         console.error(err);
       });
-  }
+  };
 
   return (
     <>
@@ -152,7 +154,7 @@ export default function ChatPage({ topic }: Props) {
         <form ref={formRef} id="user-input" onSubmit={handleSubmit}>
           <textarea
             name="reply"
-            placeholder="Reply to RoboDamien"
+            placeholder="Reply to Kan.YeAi"
             onKeyDown={onEnterDown}
             onChange={updatePrompt}
             disabled={isDisabled}
